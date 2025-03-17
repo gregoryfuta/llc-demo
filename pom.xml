@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<buildName>build-003</buildName>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -48,7 +49,71 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>io.sealights.on-premise.agents.plugin</groupId>
+				<artifactId>sealights-maven-plugin</artifactId>
+				<version>4.0.1070</version>
+				<configuration>
+					<tokenFile>./slTokenJava14.txt</tokenFile>
+					<createBuildSessionId>true</createBuildSessionId>
+
+					<appName>cgi-llc-demo</appName>
+					<branch>develop</branch>
+					<build>${buildName}</build>
+
+					<packagesincluded>dev.sealights.demo.*</packagesincluded>
+					<filesexcluded>*test-classes*</filesexcluded>
+					<filesincluded>*.class</filesincluded>
+					<testStage>Unit Tests</testStage>
+					<logLevel>INFO</logLevel>
+					<logEnabled>true</logEnabled>
+					<logToConsole>true</logToConsole>
+					<logToFile>true</logToFile>
+					<!--                    <logFolder>_tmp</logFolder>-->
+					<!--                    <filesStorage>C:\\aasdasd\\Temp\\</filesStorage>-->
+					<sealightsJvmParams>
+						<sl.ignoreExclusionsInTests>true</sl.ignoreExclusionsInTests>
+						<sl.enableUpgrade>false</sl.enableUpgrade>
+
+						<!--                                    <sl.classLoadersExcluded>org.apache.commons.*</sl.classLoadersExcluded>-->
+						<sl.maskData>true</sl.maskData>
+						<sl.enableUpgrade>false</sl.enableUpgrade>
+
+						<!--                        <sl.enabled>false</sl.enabled>    -->
+						<sl.httpRequestsLogLocation>_payload/${buildName}</sl.httpRequestsLogLocation>
+						<sl.httpDebugLog></sl.httpDebugLog>
+						<sl.maxPrintBodySize>1000000</sl.maxPrintBodySize>
+						<!--  <sl.tia.inputFile>skip-test.txt</sl.tia.inputFile>-->
+						<!--  <sl.featuresData.enableLineCoverage>true</sl.featuresData.enableLineCoverage>-->
+						<!--  <sl.featuresData.lineCoverageVersion>v2</sl.featuresData.lineCoverageVersion>-->
+					</sealightsJvmParams>
+					<!--                    <includeResources>true</includeResources>-->
+					<!--                                                    <testListenerJar>../../agents/sl-test-listener.jar</testListenerJar>-->
+					<!--                                                    <buildScannerJar>../../agents/sl-build-scanner.jar</buildScannerJar>-->
+					<testListenerJar>../../agents/sl-test-listener-4.0.2606.jar</testListenerJar>
+					<buildScannerJar>../../agents/sl-build-scanner-4.0.2606.jar</buildScannerJar>
+				</configuration>
+				<executions>
+					<execution>
+						<id>a1</id>
+						<goals>
+							<goal>build-scanner</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>a2</id>
+						<goals>
+							<goal>test-listener</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>a3</id>
+						<goals>
+							<goal>prepare-test-listener</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
